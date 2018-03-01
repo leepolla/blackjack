@@ -52,6 +52,7 @@ function update(){
             .enter().append('g')
             .attr('transform', function(d){return handPosition(d.player)})
             .attr("class", "card");
+        hand.exit().remove();
         hand
             .append('rect')
             .attr("x", function(d){return 10})
@@ -71,6 +72,9 @@ function update(){
     }
 
 function startRound(){
+    currentRound = [];
+    document.getElementById('cardArea').innerHTML = "";
+    playerPositions = [0,0]
     draw(1);
     draw(0);
     draw(1);
