@@ -14,6 +14,7 @@ console.log(deck);
 
 var dealer = [];
 var player1 = [];
+var currentRound = [];
 var turn = 'player1';
 var deckSize = 1;
 
@@ -25,23 +26,56 @@ function draw(hand){
     card = deck[Math.floor(Math.random() * deck.length)]
     
     deck.splice(deck.indexOf(card), 1);
-    hand.push(card);
+    currentRound.push({"player": hand, 'card':card});
     update();
+}
+var playerPositions = [0,0];
+function handPosition(handIndex){
+    x = 400;
+    y = 10;
+    if(handIndex > 0){
+        y = 200;
+        x = 50 + 130*handIndex; 
+    }
+    x -= playerPositions[handIndex] * 23;
+    playerPositions[handIndex] += 1;
+    console.log(handIndex);
+    return 'translate('+ x + ',' + y+')';
 }
 
 var svg = d3.select("#cardArea");
 svg.attr("width", 700)
     .attr("height", 500);
 function update(){
-var p1Hand = svg.selectAll("rect")
-    .data(player1)
-    .enter()
-    .append('rect')
-    .attr("x", 10)
-    .attr("y", 10)
-    .attr("width", 70)
-    .attr("height", 150)
-    .attr("class", "card")
-    .attr("text", function(d){return d;});
+    
+        var hand = svg.selectAll("g")
+            .data(currentRound)
+            .enter().append('g')
+            .attr('transform', function(d){return handPosition(d.player)})
+            .attr("class", "card");
+        hand
+            .append('rect')
+            .attr("x", function(d){return 10})
+            .attr("y", function(d){return 10})
+            .attr("width", 70)
+            .attr("height", 120)
+            .attr("class", "card-body")
+            .attr("fill", d3.rgb(255,255,255))
+            .attr('stroke-width', 2)
+            .attr('stroke',d3.rgb(0,0,0));
+
+        hand.append("text")
+            .attr('y', 25)
+            .attr('x', 64)
+            .attr("class", 'card-value')
+            .text( function(d){return d.card;});
+    }
+
+function startRound(){
+    draw(1);
+    draw(0);
+    draw(1);
+    draw(0);
 }
-player1.push(draw(player1))
+
+startRound();
