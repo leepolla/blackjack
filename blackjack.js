@@ -39,7 +39,6 @@ function handPosition(handIndex){
     }
     x -= playerPositions[handIndex] * 23;
     playerPositions[handIndex] += 1;
-    console.log(handIndex);
     return 'translate('+ x + ',' + y+')';
 }
 
