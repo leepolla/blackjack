@@ -8,6 +8,31 @@
  <link rel="stylesheet" href="blackjack.css">
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<div id="intro">
+    <p>BlackJack, or 21, is a common casino game which involves dealing with probabilities. 
+        The purpose of the game is to have a greater card sum than the dealer without going over 21. 
+        The card sum, or count, works by adding your card values together, where the number cards 
+        refer to its number, i.e. a card that is a 6 would add 6 to your count, and face cards 
+        (Jack, Queen, King) are all worth 10, and the ace is valued at either 1 or 11, depending 
+        on what your count is. Everyone receives 2 cards and reveals their hand, while the dealer 
+        keeps one of their cards concealed, and players can either receive another card and hope 
+        they do not go over 21 and “bust”, or stay and hope that the dealer has a lower hand or that 
+        they “bust”. The dealer, on the other hand, has a more fixated structure of playing: if they 
+        have a count of 16 or less, they must take an additional card, and if the dealer has a count 
+        of 17 or over, they must stay. The dealer continues with their specific deck that is unshuffled 
+        until they run out of cards, where they shuffle the deck and start the dealing process once again.</p>
+
+    <p>
+        One thing people do to supplement their betting patterns is “counting cards”. Essentially 
+        what it is doing is keeping track of the amount of cards that are high-value and low-value 
+        to better understand the likelihood of busting when the next card is dealt. Counting cards 
+        is difficult because it requires mentally keeping track of counts of several different 
+        categories of cards and counting cards only works if the player starts counting when the 
+        dealer first deals the shuffled deck. In other words, a player cannot begin counting cards 
+        when half of the cards in the current deck have already been played, it will be impossible 
+        to get an accurate count of the cards that have already been played. 
+    </p>
+</div>
 <div id="controls"></div>
 <div id="visualization">
     <svg id="cardArea"></svg>
