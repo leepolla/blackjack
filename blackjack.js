@@ -18,8 +18,10 @@ var playerCount = 1;
 var currentRound = [];
 var turn = 1;
 var deckSize = 1;
-var playerPositions = [0,0,0,0,0];
-var playerHands = [[],[],[],[],[]];
+var playerPositions = [0,0,0,0,0,0];
+var playerHands = [[],[],[],[],[],[]];
+var playerValues = [0,0,0,0,0,0];
+
 
 //Add Controls
 
@@ -93,12 +95,12 @@ function handleTurn(){
         if (card == 'a'){
             aceCount ++;
         }
-        console.log(playerSum)
     })
+    playerValues[turn] = {'index': turn, 'value': cardSum(turn)};
     if(playerSum > 21){
         nextTurn();
     }
-    else if ((playerSum == 11 && aceCount > 0) || aceCount == 3){
+    else if ((playerSum == 11 && aceCount > 0) || aceCount == 3 || playerSum == 21){
         //blackjack()
         nextTurn();
     }
@@ -109,11 +111,16 @@ function hit(){
 }
 
 function nextTurn(){
-    if (turn == playerCount){
-        turn = 0;
-    }else{
-        turn++;
+    console.log(turn)
+    if(turn == 0){
+        startRound()
     }
+    else if (turn == playerCount){
+        turn = 0;
+    }else {
+        turn++
+    }
+    
 }
 
 
@@ -161,15 +168,51 @@ function playerName(index){
     }
 }
 
+function playerSumPosition(index){
+    x = 420;
+    y = 185;
+    if(index > 0){
+        y = 375;
+        x = 150*index - 30; 
+    }
+    return 'translate('+ x + ',' + y+')';
+}
+
+function cardSum(index){
+    sum=0;
+    aceCount = 0;
+    playerHands[index].forEach(function(card){
+        sum += values[card]
+        if (card == 'a'){
+            aceCount ++;
+        }
+    })
+    while(sum < 11 && aceCount > 0){
+        sum += 10
+    }
+    return sum;
+}
+
 var svg = d3.select("#cardArea");
 svg.attr("width", 800)
     .attr("height", 500);
 function update(){
     
-        var hand = svg.selectAll("g")
+    var counts = svg.selectAll('.value')
+    .data(playerValues)
+    .enter().append('g')
+    .attr('transform',function(d){return playerSumPosition(d.index);})
+    .attr("class", "value");
+
+    counts.exit().remove();
+    counts.append('text')
+    .text(function(d) {return d.value;});
+
+        var hand = svg.selectAll(".hand")
             .data(currentRound)
             .enter().append('g')
-            .attr('transform', 'translate(5,5)');
+            .attr('transform', 'translate(5,5)')
+            .attr('class','hand');
         hand.exit().remove();            
             hand.transition()
             .duration(3000)
@@ -203,13 +246,16 @@ function update(){
 function startRound(){
     currentRound = [];
     document.getElementById('cardArea').innerHTML = "";
-    var playerHands = [[],[],[],[],[]];
-    playerPositions = [0,0,0,0,0,0]
+    playerHands = [[],[],[],[],[]];
+    playerPositions = [0,0,0,0,0,0];
+    playerValues = [0,0,0,0,0,0];
     for(var j = 0; j<2;j++){
         for (var i = 0; i <= playerCount;i++){
             playerHands[i].push(draw(i));
         }
     }
+    turn = 1;
+    handleTurn();
 }
 
 startRound();
