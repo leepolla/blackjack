@@ -16,8 +16,10 @@ var dealer = [];
 var player1 = [];
 var playerCount = 1;
 var currentRound = [];
-var turn = 'player1';
+var turn = 1;
 var deckSize = 1;
+var playerPositions = [0,0,0,0,0];
+var playerHands = [[],[],[],[],[]];
 
 //Add Controls
 
@@ -37,7 +39,7 @@ var groupControls = d3.select('#controls')
     
     var optionsPlayers = selectPlayers
       .selectAll('option')
-        .data([1,2,3,4,5]) //  Saw this unique value extraction at https://stackoverflow.com/questions/28572015/how-to-select-unique-values-in-d3-js-from-data
+        .data([1,2,3,4,5]) 
         .enter()
         .append('option')
         .text(function (d) { return d; });
@@ -56,7 +58,7 @@ var groupControls = d3.select('#controls')
     
     var optionsDecks = selectDecks
       .selectAll('option')
-        .data([1,2,3,4,5]) //  Saw this unique value extraction at https://stackoverflow.com/questions/28572015/how-to-select-unique-values-in-d3-js-from-data
+        .data([1,2,3,4,5]) 
         .enter()
         .append('option')
         .text(function (d) { return d; });
@@ -73,6 +75,48 @@ function changeDecks(){
     startRound();
 }
 
+d3.select('#controls')
+.append('button')
+.text("Hit")
+.on('click', hit)
+
+d3.select('#controls')
+.append('button')
+.text("Stay")
+.on('click', nextTurn)
+
+function handleTurn(){
+    playerSum=0;
+    aceCount = 0;
+    playerHands[turn].forEach(function(card){
+        playerSum += values[card]
+        if (card == 'a'){
+            aceCount ++;
+        }
+        console.log(playerSum)
+    })
+    if(playerSum > 21){
+        nextTurn();
+    }
+    else if ((playerSum == 11 && aceCount > 0) || aceCount == 3){
+        //blackjack()
+        nextTurn();
+    }
+}
+function hit(){
+    playerHands[turn].push(draw(turn));
+    handleTurn();
+}
+
+function nextTurn(){
+    if (turn == playerCount){
+        turn = 0;
+    }else{
+        turn++;
+    }
+}
+
+
 function draw(hand){
     
     if (deck.length < 11){
@@ -83,9 +127,8 @@ function draw(hand){
     deck.splice(deck.indexOf(card), 1);
     currentRound.push({"player": hand, 'card':card});
     update();
-    return card
+    return card;
 }
-var playerPositions = [0,0];
 
 
 function handPosition(handIndex){
@@ -160,10 +203,11 @@ function update(){
 function startRound(){
     currentRound = [];
     document.getElementById('cardArea').innerHTML = "";
+    var playerHands = [[],[],[],[],[]];
     playerPositions = [0,0,0,0,0,0]
     for(var j = 0; j<2;j++){
         for (var i = 0; i <= playerCount;i++){
-            draw(i);
+            playerHands[i].push(draw(i));
         }
     }
 }
