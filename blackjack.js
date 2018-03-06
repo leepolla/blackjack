@@ -147,6 +147,7 @@ d3.select('#controls')
 function handleTurn(){
     playerSum=0;
     aceCount = 0;
+    // console.log('new turn!');
     playerHands[turn].forEach(function(card){
         playerSum += values[card]
         if (card == 'a'){
@@ -171,7 +172,7 @@ function handleTurn(){
     }
 }
 function hit(){
-    console.log(deck.length);
+    // console.log(deck.length);
     //end of the hand
     if (end == 1){
         console.log('end of hand!');
@@ -179,6 +180,7 @@ function hit(){
         startRound();
     }
     else if (end == 0){
+        // console.log(turn);
         draw(turn);
         handleTurn();
     }else{
@@ -189,13 +191,20 @@ function hit(){
 
 function nextTurn(){
     if (turn == playerCount){
+        //reset back to dealer going
         turn = 0;
     }
     if(turn == 0){
         //startRound()
         handleTurn();
     }else {
-        turn++
+        //attempting to change the color of the player label 
+        console.log('next turn');
+        currPlayerText = d3.select("#player" + turn);
+        currPlayerText.style('fill', 'red');
+        turn++;
+        //recalculate the probBust for the new player
+        probBust(turn);
     }
     
 }
@@ -214,7 +223,7 @@ function draw(hand){
     //recalculate probability for that player while we still have the hand
     probBust(hand);
     discard.push(card);
-    update();
+    update(hand);
     //valueUpdate(playerValues);
     return card;
 }
@@ -300,7 +309,7 @@ function valueUpdate(values){
     valueText.exit().remove();
 }
 
-function update(){
+function update(hand){
         var hand = svg.selectAll(".card")
             .data(currentRound)
             .enter().append('g')
@@ -333,7 +342,15 @@ function update(){
         for(var i = 0; i<= playerCount; i++){
             svg.append('text')
             .attr('transform',function(d){return playerTitlePosition(i);})
-            .text(function(d) {return playerName(i);});
+            .attr("id", "player" + i)
+            .text(function(d) {return playerName(i);})
+            .style("fill", function(d){ 
+                if (hand === turn){
+                    console.log('change to red!');
+                  return ('red')
+                }
+                return null;
+              });
         }
         getCount();
         drawCounts();
@@ -385,6 +402,8 @@ function probBust(index) {
     var safeProb = safeCount / deck.length;
     bustProb[0].value = dangerProb;
     bustProb[1].value = safeProb;
+    //update this everytime we recalculate bustProb
+    drawProbs();
     return(dangerProb);
 }
 
