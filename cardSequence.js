@@ -1,5 +1,99 @@
 var playerPositions = [0,0,0,0,0,0];
 var scriptIndex = 0;
+var currentRound = [];
+var playerCount = 1;
+
+var rounds = [
+    [
+    {"player": 0, "card":3}],
+    [
+        {"player": 0, "card":3},
+        {"player": 1, "card":4},
+        {"player": 1, "card":5}],
+    [
+        {"player": 0, "card":3},
+        {"player": 1, "card":4},
+        {"player": 1, "card":5},
+        {"player": 1, "card":8}
+    ],
+    [
+        {"player": 0, "card":3},
+        {"player": 1, "card":4},
+        {"player": 1, "card":5},
+        {"player": 1, "card":8},
+        {"player": 0, "card":6}
+    ],
+    [
+        {"player": 0, "card":3},
+        {"player": 1, "card":4},
+        {"player": 1, "card":5},
+        {"player": 1, "card":8},
+        {"player": 0, "card":6},
+        {"player": 0, "card":6}
+    ],[
+        {"player": 0, "card":3},
+        {"player": 1, "card":4},
+        {"player": 1, "card":5},
+        {"player": 1, "card":8},
+        {"player": 0, "card":6},
+        {"player": 0, "card":6},
+        {"player": 0, "card":10}
+    ],
+    [],
+    [
+        {"player": 0, "card":5}
+    ],    
+    [
+        {"player": 0, "card":5},
+        {"player": 1, "card":"j"},
+        {"player": 1, "card":4}
+    ],
+    [
+        {"player": 0, "card":5},
+        {"player": 1, "card":"j"},
+        {"player": 1, "card":4},
+        {"player": 0, "card":"k"}
+    ],
+    [
+        {"player": 0, "card":5},
+        {"player": 1, "card":"j"},
+        {"player": 1, "card":4},
+        {"player": 0, "card":"k"},
+        {"player": 0, "card":10}
+
+    ]
+]
+
+function back(){
+    if (scriptIndex > 0) {
+        scriptIndex -= 1;
+        update()
+    }
+}
+
+function forward(){
+    if (scriptIndex < 10) {
+        scriptIndex += 1;
+        update()
+    }
+}
+
+d3.select('#controls')
+.append('button')
+.text("<")
+.on('click', back)
+
+d3.select('#controls')
+.append('button')
+.text(">")
+.on('click', forward)
+
+
+
+
+
+
+
 function handPosition(handIndex){
     x = 400;
     y = 10;
@@ -37,8 +131,9 @@ svg.attr("width", 800)
 
 
 function update(){
-    
-    
+    document.getElementById('cardArea').innerHTML = "";
+    playerPositions = [0,0,0,0,0,0];
+        currentRound = rounds[scriptIndex];
 
         var hand = svg.selectAll(".card")
             .data(currentRound)
@@ -47,7 +142,7 @@ function update(){
             .attr('class','card');
         //hand.exit().remove();            
             hand.transition()
-            .duration(3000)
+            .duration(100)
             .attr('transform', function(d){return handPosition(d.player)})
             .attr("class", "card");
 
@@ -76,3 +171,5 @@ function update(){
         }
         //hand.exit().remove();
     }
+
+update()
