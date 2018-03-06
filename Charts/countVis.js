@@ -45,7 +45,7 @@ var y = d3.scaleLinear()
       .range([h, 0]);
 
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#countVis").append("svg")
 .attr("width", w + margin.left + margin.right)
 .attr("height", h + margin.top + margin.bottom)
 .append("g")
