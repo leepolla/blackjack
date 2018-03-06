@@ -11,7 +11,6 @@ function shuffle(decks){
     }
 }
 shuffle(1);
-console.log(deck);
 
 var dealer = [];
 var player1 = [];
@@ -22,7 +21,7 @@ var deckSize = 1;
 var playerPositions = [0,0,0,0,0,0];
 var playerHands = [[],[],[],[],[],[]];
 var playerValues = [0,0,0,0,0,0];
-
+var end = 0;
 
 //Add Controls
 
@@ -97,27 +96,45 @@ function handleTurn(){
             aceCount ++;
         }
     })
-    playerValues[turn] = {'index': turn, 'value': cardSum(turn)};
-    if(playerSum > 21){
-        nextTurn();
-    }
-    else if ((playerSum == 11 && aceCount > 0) || aceCount == 3 || playerSum == 21){
+    if(turn == 0){
+        if (playerValues[0].value < 17){
+            draw(0);
+            handleTurn();
+        }else{
+            end = 1;
+        }
+    }else{
+        if(playerSum > 21){
+            nextTurn();
+        }
+        else if ((playerSum == 11 && aceCount > 0) || aceCount == 3 || playerSum == 21){
         //blackjack()
-        nextTurn();
+            nextTurn();
+        }
     }
+    
 }
 function hit(){
-    playerHands[turn].push(draw(turn));
-    handleTurn();
+    if (end == 1){
+        end = 0
+        startRound()
+    }
+    else if (end == 0){
+        draw(turn);
+        handleTurn();
+    }else{
+        end = 1
+    }
+
 }
 
 function nextTurn(){
-    console.log(turn)
-    if(turn == 0){
-        startRound()
-    }
-    else if (turn == playerCount){
+    if (turn == playerCount){
         turn = 0;
+    }
+    if(turn == 0){
+        //startRound()
+        handleTurn();
     }else {
         turn++
     }
@@ -126,15 +143,18 @@ function nextTurn(){
 
 
 function draw(hand){
-    
     if (deck.length < 11){
         shuffle(deckSize) //adjust to global  deck size set by user
     }
     card = deck[Math.floor(Math.random() * deck.length)]
-    
+
     deck.splice(deck.indexOf(card), 1);
     currentRound.push({"player": hand, 'card':card});
+    playerHands[hand].push(card);
+    playerValues[hand] = {'index': hand, 'value': cardSum(hand)};
+
     update();
+    //valueUpdate(playerValues);
     return card;
 }
 
@@ -188,8 +208,9 @@ function cardSum(index){
             aceCount ++;
         }
     })
-    while(sum < 11 && aceCount > 0){
+    while(sum < 12 && aceCount > 0){
         sum += 10
+        aceCount -= 1
     }
     return sum;
 }
@@ -197,24 +218,37 @@ function cardSum(index){
 var svg = d3.select("#cardArea");
 svg.attr("width", 800)
     .attr("height", 500);
-function update(){
-    
-    var counts = svg.selectAll('.value')
-    .data(playerValues)
+
+
+
+
+
+function valueUpdate(values){
+    var counts = svg.selectAll(".value")
+    .data(values)
     .enter().append('g')
     .attr('transform',function(d){return playerSumPosition(d.index);})
     .attr("class", "value");
 
+    
+    valueText = counts.append('text')
+    .text(function(d) {return d.value;})
+    .attr('x',1)
+    .attr('y',1);
     counts.exit().remove();
-    counts.append('text')
-    .text(function(d) {return d.value;});
+    valueText.exit().remove();
+}
 
-        var hand = svg.selectAll(".hand")
+function update(){
+    
+    
+
+        var hand = svg.selectAll(".card")
             .data(currentRound)
             .enter().append('g')
             .attr('transform', 'translate(5,5)')
-            .attr('class','hand');
-        hand.exit().remove();            
+            .attr('class','card');
+        //hand.exit().remove();            
             hand.transition()
             .duration(3000)
             .attr('transform', function(d){return handPosition(d.player)})
@@ -237,11 +271,13 @@ function update(){
             .attr("class", 'card-value')
             .text( function(d){return d.card;});
 
+        
         for(var i = 0; i<= playerCount; i++){
             svg.append('text')
             .attr('transform',function(d){return playerTitlePosition(i);})
             .text(function(d) {return playerName(i);});
         }
+        //hand.exit().remove();
     }
 
 function startRound(){
@@ -252,7 +288,9 @@ function startRound(){
     playerValues = [0,0,0,0,0,0];
     for(var j = 0; j<2;j++){
         for (var i = 0; i <= playerCount;i++){
-            playerHands[i].push(draw(i));
+            if (i != 0 || j != 0){
+                draw(i);
+            }
         }
     }
     turn = 1;
