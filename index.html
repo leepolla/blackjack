@@ -10,13 +10,19 @@
   <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 <div id="intro">
 </div>
+<div id="LeftPanel" style="width: 800; height: 100%; float: left;">
 <div id="controls"></div>
-<div id="visualization">
+<div id="game">
     <svg id="cardArea"></svg>
-    <svg id="countArea"></svg>
-    <svg id="probArea"></svg>
-
 </div>
+</div>
+<div id="RightPanel" style="width: 200; height: 100%; text-align: left; vertical-align: bottom; float: right;">
+        <div id="charts">
+                <svg id="countArea"></svg>
+                <svg id="probArea"></svg>
+        </div>
+</div>
+
 <script src="blackjack.js"></script>
 
 

@@ -30,8 +30,8 @@ var end = 0;
 var countValues = {'a':-1,'2':1,'3':1,'4':1,'5':1,'6':1,'7':0,'8':0,'9':0,'10':-1,'j':-1,'q':-1,'k':-1};
 var discard = [];
 
-var width = 750;
-var height = 450;
+var width = 375;
+var height = 225;
 var margin = {top: 20, right: 15, bottom: 30, left: 40};
 var w = width - margin.left - margin.right;
 var h = height - margin.top - margin.bottom;
@@ -446,13 +446,13 @@ function drawProbs() {
     .attr("x", function(d) {return xProb(d.name); })
     .attr("width", function(d) {return xProb.bandwidth();})
     .attr("y", h)
+    // .attr("y", function(d) {return h - xProb(d.value);})
     .attr("height", 0);
-  
   
     new_bars.merge(bars)
       .transition(1000)
       .attr("x", function(d) {return xProb(d.name); })
-      .attr("y", function(d) { return xProb(d.value);})
+      .attr("y", function(d) { return yProb(d.value);})
       .attr("height", function(d) {return h - yProb(d.value);});  
     
     svgProb.select(".x.axis")
