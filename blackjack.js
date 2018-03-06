@@ -22,9 +22,25 @@ var playerPositions = [0,0,0,0,0,0];
 var playerHands = [[],[],[],[],[],[]];
 var playerValues = [0,0,0,0,0,0];
 var end = 0;
+var cardCounts = [{'name':'-1', 'value':0}, {'name': '0', 'value':0}, {'name':'1', 'value':0}]
+var countValues = {'a':-1,'2':1,'3':1,'4':1,'5':1,'6':1,'7':0,'8':0,'9':0,'10':-1,'j':-1,'q':-1,'k':-1};
+var discard = [];
+
+var width = 750;
+var height = 450;
+var margin = {top: 20, right: 15, bottom: 30, left: 40};
+var w = width - margin.left - margin.right;
+var h = height - margin.top - margin.bottom;
+
+var xCount = d3.scaleBand()
+      .range([0,w])
+      .paddingInner(0.05);
+
+var yCount = d3.scaleLinear()
+      .range([h, 0]);
+
 
 //Add Controls
-
 var groupControls = d3.select('#controls')
         .append('div')
         .attr('id', 'controller')
@@ -112,7 +128,6 @@ function handleTurn(){
             nextTurn();
         }
     }
-    
 }
 function hit(){
     if (end == 1){
@@ -152,7 +167,7 @@ function draw(hand){
     currentRound.push({"player": hand, 'card':card});
     playerHands[hand].push(card);
     playerValues[hand] = {'index': hand, 'value': cardSum(hand)};
-
+    discard.push(card);
     update();
     //valueUpdate(playerValues);
     return card;
@@ -240,9 +255,6 @@ function valueUpdate(values){
 }
 
 function update(){
-    
-    
-
         var hand = svg.selectAll(".card")
             .data(currentRound)
             .enter().append('g')
@@ -277,6 +289,8 @@ function update(){
             .attr('transform',function(d){return playerTitlePosition(i);})
             .text(function(d) {return playerName(i);});
         }
+        getCount();
+        drawCounts();
         //hand.exit().remove();
     }
 
@@ -298,3 +312,64 @@ function startRound(){
 }
 
 startRound();
+
+//populates array of objects that keeps track of counts of different types of cards
+function getCount(){
+    cardCounts = [{'name':'-1', 'value':0}, {'name': '0', 'value':0}, {'name':'1', 'value':0}];
+    discard.forEach(function(card) {
+      val = countValues[card];
+      val = parseInt(val);
+      cardCounts[val+1].value++;
+    })
+} 
+
+
+
+
+var svg = d3.select("#visualization").append("svg")
+.attr("width", w + margin.left + margin.right)
+.attr("height", h + margin.top + margin.bottom)
+.append("g")
+.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + h + ")");
+svg.append("g")
+  .attr("class","y axis");
+
+function drawCounts() {
+    counts = [cardCounts[0].value, cardCounts[1].value, cardCounts[2].value]
+    xCount.domain(cardCounts.map(function(row) {return row.name}));
+    yCount.domain([0, d3.max(counts)]);
+  
+  var bars = svg.selectAll(".bar")
+    .data(cardCounts)
+    
+    bars
+    .exit()
+    .remove();
+  
+    var new_bars = bars
+    .enter()
+    .append("rect")
+    .attr("class", "bar")
+    .attr("x", function(d) {return xCount(d.name); })
+    .attr("width", function(d) {return xCount.bandwidth();})
+    .attr("y", h)
+    .attr("height", 0);
+  
+  
+    new_bars.merge(bars)
+      .transition(1000)
+      .attr("x", function(d) {return xCount(d.name); })
+      .attr("y", function(d) { return yCount(d.value);})
+      .attr("height", function(d) {return h - yCount(d.value);});  
+    
+    svg.select(".x.axis")
+      .transition(1000)
+      .call(d3.axisBottom(xCount));  
+    svg.select(".y.axis")
+      .transition(1000)
+      .call(d3.axisLeft(yCount));
+}
