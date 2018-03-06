@@ -198,13 +198,14 @@ function nextTurn(){
         //startRound()
         handleTurn();
     }else {
-        //attempting to change the color of the player label 
-        console.log('next turn');
-        currPlayerText = d3.select("#player" + turn);
-        currPlayerText.style('fill', 'red');
         turn++;
         //recalculate the probBust for the new player
         probBust(turn);
+        //attempting to change the color of the player label 
+        console.log('next turn');
+        d3.select("#player" + turn).style('fill', 'red');
+        //make previous player black again
+        d3.select("#player" + turn-1).style('fill', 'black');
     }
     
 }
@@ -343,14 +344,14 @@ function update(hand){
             svg.append('text')
             .attr('transform',function(d){return playerTitlePosition(i);})
             .attr("id", "player" + i)
-            .text(function(d) {return playerName(i);})
-            .style("fill", function(d){ 
-                if (hand === turn){
-                    console.log('change to red!');
-                  return ('red')
-                }
-                return null;
-              });
+            .text(function(d) {return playerName(i);});
+            // .style("fill", function(d){ 
+            //     if (hand === turn){
+            //         console.log('change to red!');
+            //       return ('red')
+            //     }
+            //     return null;
+            //   });
         }
         getCount();
         drawCounts();
