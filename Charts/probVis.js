@@ -12,7 +12,7 @@ var countValues = {'a':-1,'2':1,'3':1,'4':1,'5':1,'6':1,'7':0,'8':0,'9':0,'10':-
 var player1 = [];
 var discard = [];
 var cardCounts = [{'name':'-1', 'value':0}, {'name': '0', 'value':0}, {'name':'1', 'value':0}]
-
+var bustProb = [{'name':'bust', 'value':0}, {'name':'safe', 'value':1}]
 
 function shuffle(decks){
 deck = [];
@@ -45,13 +45,11 @@ var y = d3.scaleLinear()
       .range([h, 0]);
 
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#countVis").append("svg")
 .attr("width", w + margin.left + margin.right)
 .attr("height", h + margin.top + margin.bottom)
 .append("g")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
 
 
 svg.append("g")
@@ -70,6 +68,20 @@ player1.forEach(function(card){
     sum += values[card]
 })
 return sum;
+}
+
+function probBust() {
+    var currSum = cardSum();
+    var bustLevel = 21 - currSum;
+    var bustCount = 0;
+    deck.forEach(function(card) {
+        if(values[card] > bustLevel) {
+            bustCount++;
+        }
+    });
+    var safeCount = deck.length - bustCount;
+    var dangerProb = bustCount / deck.le
+    return bustCount;
 }
 
 function drawCounts() {
