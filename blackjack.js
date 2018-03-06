@@ -39,6 +39,18 @@ var xCount = d3.scaleBand()
 var yCount = d3.scaleLinear()
       .range([h, 0]);
 
+      var svgCount = d3.select("#countArea")
+      .attr("width", w + margin.left + margin.right)
+      .attr("height", h + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      
+      svgCount.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + h + ")");
+      svgCount.append("g")
+        .attr("class","y axis");
+
 
 //Add Controls
 var groupControls = d3.select('#controls')
@@ -326,24 +338,13 @@ function getCount(){
 
 
 
-var svg = d3.select("#visualization").append("svg")
-.attr("width", w + margin.left + margin.right)
-.attr("height", h + margin.top + margin.bottom)
-.append("g")
-.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-svg.append("g")
-  .attr("class", "x axis")
-  .attr("transform", "translate(0," + h + ")");
-svg.append("g")
-  .attr("class","y axis");
 
 function drawCounts() {
     counts = [cardCounts[0].value, cardCounts[1].value, cardCounts[2].value]
     xCount.domain(cardCounts.map(function(row) {return row.name}));
     yCount.domain([0, d3.max(counts)]);
   
-  var bars = svg.selectAll(".bar")
+  var bars = svgCount.selectAll(".bar")
     .data(cardCounts)
     
     bars
@@ -366,10 +367,10 @@ function drawCounts() {
       .attr("y", function(d) { return yCount(d.value);})
       .attr("height", function(d) {return h - yCount(d.value);});  
     
-    svg.select(".x.axis")
+    svgCount.select(".x.axis")
       .transition(1000)
       .call(d3.axisBottom(xCount));  
-    svg.select(".y.axis")
+    svgCount.select(".y.axis")
       .transition(1000)
       .call(d3.axisLeft(yCount));
 }
