@@ -145,6 +145,7 @@ d3.select('#controls')
 .on('click', nextTurn)
 
 function handleTurn(){
+    handleActive();
     playerSum=0;
     aceCount = 0;
     // console.log('new turn!');
@@ -207,7 +208,6 @@ function nextTurn(){
         //make previous player black again
         d3.select("#player" + turn-1).style('fill', 'black');
     }
-    
 }
 
 
@@ -286,6 +286,17 @@ function cardSum(index){
     return sum;
 }
 
+function handleActive(){
+    titles = document.querySelectorAll(".playerTitle")
+    titles.forEach(function(title){
+        title.classList.remove("active")
+    })
+    selected = document.querySelectorAll("#player" + turn)
+    selected.forEach(function(title){
+        title.classList.add("active")
+    })
+}
+
 var svg = d3.select("#cardArea");
 svg.attr("width", 800)
     .attr("height", 500);
@@ -344,6 +355,7 @@ function update(hand){
             svg.append('text')
             .attr('transform',function(d){return playerTitlePosition(i);})
             .attr("id", "player" + i)
+            .attr("class", "playerTitle")
             .text(function(d) {return playerName(i);});
             // .style("fill", function(d){ 
             //     if (hand === turn){
