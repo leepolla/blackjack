@@ -2,12 +2,14 @@
 <html>
 	<head>
     	<script src="https://d3js.org/d3.v4.min.js"></script>
-  		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+          <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+          <link rel="stylesheet" href="blackjack.css">
   		<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   		<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 	</head>
 	<body>
       <div id="intro">
+          <h1> Introduction </h1>
           <p>BlackJack, or 21, is a common casino game which involves dealing with probabilities. 
               The purpose of the game is to have a greater card sum than the dealer without going over 21. 
               The card sum, or count, works by adding your card values together, where the number cards 
@@ -15,14 +17,33 @@
               (Jack, Queen, King) are all worth 10, and the ace is valued at either 1 or 11, depending 
               on what your count is. Everyone receives 2 cards and reveals their hand, while the dealer 
               keeps one of their cards concealed, and players can either receive another card and hope 
-              they do not go over 21 and “bust”, or stay and hope that the dealer has a lower hand or that 
-              they “bust”. The dealer, on the other hand, has a more fixated structure of playing: if they 
+              they do not go over 21 and "bust", or stay and hope that the dealer has a lower hand or that 
+              they "bust". The dealer, on the other hand, has a more fixated structure of playing: if they 
               have a count of 16 or less, they must take an additional card, and if the dealer has a count 
               of 17 or over, they must stay. The dealer continues with their specific deck that is unshuffled 
               until they run out of cards, where they shuffle the deck and start the dealing process once again.</p>
-      
+
+              <table>
+                    <tr>
+                      <th>Card</th>
+                      <th>Value</th>
+                    </tr>
+                    <tr>
+                      <td>2 - 10</td>
+                      <td>2 - 10</td>
+                    </tr>
+                    <tr>
+                      <td>J/Q/K</td>
+                      <td>10</td>
+                    </tr>
+                    <tr>
+                      <td>A</td>
+                      <td>1 or 11</td>
+                    </tr>
+                  </table>
+
           <p>
-              One thing people do to supplement their betting patterns is “counting cards”. Essentially 
+              One thing people do to supplement their betting patterns is "counting cards". Essentially 
               what it is doing is keeping track of the amount of cards that are high-value and low-value 
               to better understand the likelihood of busting when the next card is dealt. Counting cards 
               is difficult because it requires mentally keeping track of counts of several different 
@@ -31,24 +52,50 @@
               when half of the cards in the current deck have already been played, it will be impossible 
               to get an accurate count of the cards that have already been played. 
           </p>
-          <h1> Simulation Game </h1>
-          <p> Below, We are going to show how data visualization helps making it easier to understand the 
-              process of counting cards. We can see this through this simulated game where we have dynamic 
-              bar charts showing the information on probabilities and the count of the deck.</p>
+
+          <table>
+                <tr>
+                  <th>Card</th>
+                  <th>Count Value</th>
+                </tr>
+                <tr>
+                  <td>2 - 6</td>
+                  <td>+1</td>
+                </tr>
+                <tr>
+                  <td>7 - 9</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>10/J/Q/K/A</td>
+                  <td>-1</td>
+                </tr>
+              </table>
+          <h2> Scripted Demo Game </h1>
+          <p> Below is a scripted demo that shows how data visualization makes it easier to count cards while playing 
+              BlackJack. In the demo below, the cards are shown on the left and the chart on the right shows 
+              the count of each type of card.<b>To play a live,unscripted version of the game, click the link 
+              at the bottom of the page.</b></p>
+        <h3>Strategy Advice</h2>
+        <p id="strategy">
+
+        </p>
       </div>
+    <div id="RightPanel" style= "height: 100%; text-align: left; vertical-align: bottom; float: right;">
     <div id="countVis">
       <svg class="chart"></svg>
-      <script src="Charts/countVis.js"></script>
+      <!-- <script src="Charts/countVis.js"></script> -->
     </div>
-    <div id="probVis">
-        <svg class="chart"></svg>
-        <script src="Charts/probVis.js"></script>
-      </div>
-    <div>
-        <svg id="cardArea"></svg>
+    </div>
+
+    <div id="LeftPanel" style="width: 800; height: 100%; float: left;">
         <div id="controls"></div>
-    </div>
+        <svg id="cardArea"></svg>
         
+    </div>
     <script src="cardSequence.js"></script>
+    <br>
+    <br>
+    <a href="https://leepolla.github.io/blackjack/"><h1>Explore Live Game</h1></a>
 	</body>
 </html>

@@ -5,3 +5,34 @@
 .active {
     fill: red;
 }
+
+svg {
+    display: inline-block;
+}
+
+#RightPanel > p{
+    display: inline;
+    margin-left: 40px;
+}
+
+#RightPanel span {
+    color: red;
+}
+
+#results {
+    border:solid black 1px;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border: 2px solid black;
+    width: 60%;
+    margin-left: 20%;
+    margin-right:20%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}

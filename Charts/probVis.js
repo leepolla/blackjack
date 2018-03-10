@@ -47,9 +47,6 @@ svg.append("g")
   .attr("class","y axis");
 
 
-counts = [cardCounts[0].value, cardCounts[1].value, cardCounts[2].value]
-names = [cardCounts[0].name, cardCounts[1].name, cardCounts[2].name]
-
 function cardSum(){
 sum=0;
 player1.forEach(function(card){

@@ -30,7 +30,7 @@ var end = 0;
 var countValues = {'a':-1,'2':1,'3':1,'4':1,'5':1,'6':1,'7':0,'8':0,'9':0,'10':-1,'j':-1,'q':-1,'k':-1};
 var discard = [];
 
-var width = 375;
+var width = 175;
 var height = 225;
 var margin = {top: 20, right: 15, bottom: 30, left: 40};
 var w = width - margin.left - margin.right;
@@ -161,6 +161,8 @@ function handleTurn(){
             handleTurn();
         }else{
             end = 1;
+            handleWins();
+
         }
     }else{
         if(playerSum > 21){
@@ -172,11 +174,26 @@ function handleTurn(){
         }
     }
 }
+
+function handleWins(){
+    var results = document.getElementById("results")
+    for (i=1; i<=playerCount;i++){
+        var node = document.createElement("p")
+        if ((playerValues[i].value > playerValues[0].value || playerValues[0].value> 21)&& playerValues[i].value < 22){
+            node.innerHTML = "Player " + i + ": Win"
+            node.style.color = "green"
+        } else{
+            node.innerHTML = "Player " + i + ": Lose"
+            node.style.color = "red"
+        }
+        results.appendChild(node)
+    }
+}
+
 function hit(){
     // console.log(deck.length);
     //end of the hand
     if (end == 1){
-        console.log('end of hand!');
         end = 0;
         startRound();
     }
@@ -185,28 +202,33 @@ function hit(){
         draw(turn);
         handleTurn();
     }else{
-        end = 1
+        console.log("win time")
+        end = 1;
+        
     }
 
 }
 
 function nextTurn(){
-    if (turn == playerCount){
+    if (end == 0){
+        if (turn == playerCount){
         //reset back to dealer going
-        turn = 0;
-    }
-    if(turn == 0){
-        //startRound()
-        handleTurn();
-    }else {
-        turn++;
-        //recalculate the probBust for the new player
-        probBust(turn);
-        //attempting to change the color of the player label 
-        console.log('next turn');
-        d3.select("#player" + turn).style('fill', 'red');
-        //make previous player black again
-        d3.select("#player" + turn-1).style('fill', 'black');
+            turn = 0;
+        }
+        if(turn == 0){
+            //startRound()
+            handleTurn();
+        }else {
+            turn++;
+            //recalculate the probBust for the new player
+            probBust(turn);
+            //attempting to change the color of the player label 
+            console.log('next turn');
+            d3.select("#player" + turn).style('fill', 'red');
+            //make previous player black again
+            d3.select("#player" + turn-1).style('fill', 'black');
+        }
+        handleActive()   
     }
 }
 
@@ -295,6 +317,18 @@ function handleActive(){
     selected.forEach(function(title){
         title.classList.add("active")
     })
+    if (turn == 0){
+        player = "Dealer"
+    }else{
+        player = "Player" + turn
+    }
+    document.getElementById("CurrentPlayer").innerHTML =player
+    handleCount()
+}
+
+function handleCount(){
+    currCount = cardCounts[2].value - cardCounts[0].value
+    document.getElementById("count").innerHTML = currCount
 }
 
 var svg = d3.select("#cardArea");
@@ -374,7 +408,8 @@ function update(hand){
 function startRound(){
     currentRound = [];
     document.getElementById('cardArea').innerHTML = "";
-    playerHands = [[],[],[],[],[]];
+    document.getElementById("results").innerHTML = "";
+    playerHands = [[],[],[],[],[],[]];
     playerPositions = [0,0,0,0,0,0];
     playerValues = [0,0,0,0,0,0];
     for(var j = 0; j<2;j++){
