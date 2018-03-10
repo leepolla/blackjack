@@ -18,3 +18,17 @@ svg {
 #RightPanel span {
     color: red;
 }
+
+table {
+    font-family: arial, sans-serif;
+    border: 2px solid black;
+    width: 60%;
+    margin-left: 20%;
+    margin-right:20%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
