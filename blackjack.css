@@ -10,6 +10,10 @@ svg {
     display: inline-block;
 }
 
+#RightPanel{
+    margin-right: 30px
+}
+
 #RightPanel > p{
     display: inline;
     margin-left: 40px;
@@ -21,6 +25,10 @@ svg {
 
 #results {
     border:solid black 1px;
+}
+
+#cardArea {
+    background-color: green
 }
 
 table {

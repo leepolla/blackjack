@@ -15,11 +15,11 @@ function shuffle(decks){
         });
     }
 }
-shuffle(1);
+shuffle(4);
 
 var dealer = [];
 var player1 = [];
-var playerCount = 1;
+var playerCount = 2;
 var currentRound = [];
 var turn = 1;
 var deckSize = 1;
@@ -100,7 +100,7 @@ var groupControls = d3.select('#controls')
         .enter()
         .append('option')
         .text(function (d) { return d; });
-    document.querySelector('#selectPlayers').selectedIndex = 0;
+    document.querySelector('#selectPlayers').selectedIndex = 1;
 
 
     d3.select('#' + 'controller')
@@ -119,7 +119,7 @@ var groupControls = d3.select('#controls')
         .enter()
         .append('option')
         .text(function (d) { return d; });
-    document.querySelector('#selectDecks').selectedIndex = 0;
+    document.querySelector('#selectDecks').selectedIndex = 3;
 
 function changePlayers(){
     playerCount = d3.select('#selectPlayers').property('value')
