@@ -161,6 +161,8 @@ function handleTurn(){
             handleTurn();
         }else{
             end = 1;
+            handleWins();
+
         }
     }else{
         if(playerSum > 21){
@@ -172,6 +174,22 @@ function handleTurn(){
         }
     }
 }
+
+function handleWins(){
+    var results = document.getElementById("results")
+    for (i=1; i<=playerCount;i++){
+        var node = document.createElement("p")
+        if ((playerValues[i].value > playerValues[0].value || playerValues[0].value> 21)&& playerValues[i].value < 22){
+            node.innerHTML = "Player " + i + ": Win"
+            node.style.color = "green"
+        } else{
+            node.innerHTML = "Player " + i + ": Lose"
+            node.style.color = "red"
+        }
+        results.appendChild(node)
+    }
+}
+
 function hit(){
     // console.log(deck.length);
     //end of the hand
@@ -184,31 +202,34 @@ function hit(){
         draw(turn);
         handleTurn();
     }else{
-        end = 1
-        handleWins()
+        console.log("win time")
+        end = 1;
+        
     }
 
 }
 
 function nextTurn(){
-    if (turn == playerCount){
+    if (end == 0){
+        if (turn == playerCount){
         //reset back to dealer going
-        turn = 0;
+            turn = 0;
+        }
+        if(turn == 0){
+            //startRound()
+            handleTurn();
+        }else {
+            turn++;
+            //recalculate the probBust for the new player
+            probBust(turn);
+            //attempting to change the color of the player label 
+            console.log('next turn');
+            d3.select("#player" + turn).style('fill', 'red');
+            //make previous player black again
+            d3.select("#player" + turn-1).style('fill', 'black');
+        }
+        handleActive()   
     }
-    if(turn == 0){
-        //startRound()
-        handleTurn();
-    }else {
-        turn++;
-        //recalculate the probBust for the new player
-        probBust(turn);
-        //attempting to change the color of the player label 
-        console.log('next turn');
-        d3.select("#player" + turn).style('fill', 'red');
-        //make previous player black again
-        d3.select("#player" + turn-1).style('fill', 'black');
-    }
-    handleActive()
 }
 
 
@@ -387,6 +408,7 @@ function update(hand){
 function startRound(){
     currentRound = [];
     document.getElementById('cardArea').innerHTML = "";
+    document.getElementById("results").innerHTML = "";
     playerHands = [[],[],[],[],[],[]];
     playerPositions = [0,0,0,0,0,0];
     playerValues = [0,0,0,0,0,0];

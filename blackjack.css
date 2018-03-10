@@ -10,11 +10,15 @@ svg {
     display: inline-block;
 }
 
-#RightPanel p{
+#RightPanel > p{
     display: inline;
     margin-left: 40px;
 }
 
 #RightPanel span {
     color: red;
+}
+
+#results {
+    border:solid black 1px;
 }
