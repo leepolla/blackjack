@@ -30,7 +30,7 @@ var end = 0;
 var countValues = {'a':-1,'2':1,'3':1,'4':1,'5':1,'6':1,'7':0,'8':0,'9':0,'10':-1,'j':-1,'q':-1,'k':-1};
 var discard = [];
 
-var width = 375;
+var width = 175;
 var height = 225;
 var margin = {top: 20, right: 15, bottom: 30, left: 40};
 var w = width - margin.left - margin.right;
@@ -176,7 +176,6 @@ function hit(){
     // console.log(deck.length);
     //end of the hand
     if (end == 1){
-        console.log('end of hand!');
         end = 0;
         startRound();
     }
@@ -208,6 +207,7 @@ function nextTurn(){
         //make previous player black again
         d3.select("#player" + turn-1).style('fill', 'black');
     }
+    handleActive()
 }
 
 
@@ -295,6 +295,7 @@ function handleActive(){
     selected.forEach(function(title){
         title.classList.add("active")
     })
+    document.getElementById("CurrentPlayer").innerText = "player " + turn
 }
 
 var svg = d3.select("#cardArea");

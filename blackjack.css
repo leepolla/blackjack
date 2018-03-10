@@ -5,3 +5,11 @@
 .active {
     fill: red;
 }
+
+svg {
+    display: inline-block;
+}
+
+#RightPanel p{
+    display: inline;
+}
