@@ -12,4 +12,9 @@ svg {
 
 #RightPanel p{
     display: inline;
+    margin-left: 40px;
+}
+
+#RightPanel span {
+    color: red;
 }

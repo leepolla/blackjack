@@ -185,6 +185,7 @@ function hit(){
         handleTurn();
     }else{
         end = 1
+        handleWins()
     }
 
 }
@@ -295,7 +296,18 @@ function handleActive(){
     selected.forEach(function(title){
         title.classList.add("active")
     })
-    document.getElementById("CurrentPlayer").innerText = "player " + turn
+    if (turn == 0){
+        player = "Dealer"
+    }else{
+        player = "Player" + turn
+    }
+    document.getElementById("CurrentPlayer").innerHTML =player
+    handleCount()
+}
+
+function handleCount(){
+    currCount = cardCounts[2].value - cardCounts[0].value
+    document.getElementById("count").innerHTML = currCount
 }
 
 var svg = d3.select("#cardArea");
@@ -375,7 +387,7 @@ function update(hand){
 function startRound(){
     currentRound = [];
     document.getElementById('cardArea').innerHTML = "";
-    playerHands = [[],[],[],[],[]];
+    playerHands = [[],[],[],[],[],[]];
     playerPositions = [0,0,0,0,0,0];
     playerValues = [0,0,0,0,0,0];
     for(var j = 0; j<2;j++){
