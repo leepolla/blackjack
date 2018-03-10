@@ -6,7 +6,7 @@ var helperText = [
     'To start off with this demo, the dealer has a 3 showing, and since it is a low card, the count is +1.',
     'The user is dealt a 4 and 5, so the count goes up to +3 as they are both low cards.',
     'Since the player has a 0% chance of busting, he decides to take another card, this time an 8. The count will remain at +3 since 8 is a neutral card, and since the user has a 17 currently, they decide to stay.',
-    'The dealer’s other card was a 6, another low card so the count goes to +4',
+    'The dealer\'s other card was a 6, another low card so the count goes to +4',
     'Since the dealer is at 9, they must hit again, they get another 6, pushing the count to +5',
     'With the dealer at 15, they must hit again, and they get a 10. Since 10 is a high card, the count goes down to +4, and the dealer has a 25, so they bust.',
     'In the second round, the deck is not re-shuffled, so the count stays at +4.',
@@ -17,7 +17,7 @@ var helperText = [
 ]
 
 var width = 375;
-var height = 225;
+var height = 383;
 var margin = {top: 20, right: 15, bottom: 30, left: 40};
 var w = width - margin.left - margin.right;
 var h = height - margin.top - margin.bottom;
