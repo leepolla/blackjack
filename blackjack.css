@@ -10,6 +10,10 @@ svg {
     display: inline-block;
 }
 
+#RightPanel{
+    margin-right: 30px
+}
+
 #RightPanel > p{
     display: inline;
     margin-left: 40px;
