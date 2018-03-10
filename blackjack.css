@@ -27,6 +27,10 @@ svg {
     border:solid black 1px;
 }
 
+#cardArea {
+    background-color: green
+}
+
 table {
     font-family: arial, sans-serif;
     border: 2px solid black;
