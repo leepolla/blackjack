@@ -35,16 +35,32 @@
           <p> Below, We are going to show how data visualization helps making it easier to understand the 
               process of counting cards. We can see this through this simulated game where we have dynamic 
               bar charts showing the information on probabilities and the count of the deck.</p>
+        
+        <p>To start off with this demo, the dealer has a 3 showing, and since it is a low card, the count is +1. 
+            The user is dealt a 4 and 5, so the count goes up to +3 as they are both low cards. Since the player 
+            has a 0% chance of busting, he decides to take another card, this time an 8. The count will remain 
+            at +3 since 8 is a neutral card, and since the user has a 17 currently, they decide to stay. The 
+            dealer’s other card was a 6, another low card so the count goes to +4, and since the dealer is at 9, 
+            they must hit again, they get another 6, pushing the count to +5, and with the dealer at 15, they 
+            must hit again, and they get a 10. Since 10 is a high card, the count goes down to +4, and the dealer 
+            has a 25, so they bust. 
+            
+            In the second round, the deck does not get shuffled so the count remains at +4, and the dealer gets a 
+            5, so the count goes up again to +5. The user is dealt a Jack and a 4, and since it is 1 high card and 
+            1 low card ,the count remains at +5. Since the count is high and the user is at 14, while the dealer 
+            has a 5 showing, the wise move is to stay because the chance of drawing a card greater than 7 is high. 
+            The dealers other card is a 10, so the count goes down to +4 and the dealer has 15, so they must take 
+            another card, where they get a King, so the count goes down to +3 and the user gets a 25 and busts.
+        </p>
       </div>
+    <div id="RightPanel" style= "height: 100%; text-align: left; vertical-align: bottom; float: right;">
     <div id="countVis">
       <svg class="chart"></svg>
-      <script src="Charts/countVis.js"></script>
+      <!-- <script src="Charts/countVis.js"></script> -->
     </div>
-    <div id="probVis">
-        <svg class="chart"></svg>
-        <script src="Charts/probVis.js"></script>
-      </div>
-    <div>
+    </div>
+
+    <div id="LeftPanel" style="width: 800; height: 100%; float: left;">
         <svg id="cardArea"></svg>
         <div id="controls"></div>
     </div>
