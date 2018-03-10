@@ -3,17 +3,17 @@ var countValues = {'a':-1,'2':1,'3':1,'4':1,'5':1,'6':1,'7':0,'8':0,'9':0,'10':-
 var cardCounts = [{'name':'-1', 'value':0}, {'name': '0', 'value':0}, {'name':'1', 'value':1}]
 var player1 = [];
 var helperText = [
-    'To start off with this demo, the dealer has a 3 showing, and since it is a low card, the count is +1.',
-    'The user is dealt a 4 and 5, so the count goes up to +3 as they are both low cards.',
-    'Since the player has a 0% chance of busting, he decides to take another card, this time an 8. The count will remain at +3 since 8 is a neutral card, and since the user has a 17 currently, they decide to stay.',
-    'The dealer\'s other card was a 6, another low card so the count goes to +4',
-    'Since the dealer is at 9, they must hit again, they get another 6, pushing the count to +5',
-    'With the dealer at 15, they must hit again, and they get a 10. Since 10 is a high card, the count goes down to +4, and the dealer has a 25, so they bust.',
+    'To start off with this demo, the dealer has a 3 showing, and since it is a low card, the count is +1. Click the right arrow below to see the cards the user is dealt.',
+    'The user is dealt a 4 and 5, so the count goes up to +3 as they are both low cards. The user decides to "hit" since they have a 0% chance of busting. Click the right arrow below to see the card the player receives when they hit.',
+    'Upon hitting, the player receives an 8. The count will remain at +3 since 8 is a neutral card, and since the player has a 17 currently, they decide to stay. Now it is the dealer\'s turn. Click the right arrow below to see the dealer\'s second card.',
+    'The dealer\'s other card was a 6, another low card so the count increases to +4. The dealer must hit since the value of their cards is less than 17. Click the right arrow to see which card the dealer receives when they hit.',
+    'The dealer gets another 6, pushing the count to +5, and the value of their hand to 15. Since the dealer is not at 17, they must hit. Click the right arrow to see which card the dealer receives when they hit.',
+    'The dealer receives a 10. Since 10 is a high card, the count goes down to +4. The value of the dealer\'s hand is now 25, so they bust and the player wins the first hand. Click the right arrow to move on to the second hand.',
     'In the second round, the deck is not re-shuffled, so the count stays at +4.',
-    'The dealer is dealt a 5, so the count goes up again to +5.',
-    'The user is dealt a Jack and a 4, and since it is 1 high card and 1 low card ,the count remains at +5. Since the count is high and the user is at 14, while the dealer has a 5 showing, the wise move is to stay because the chance of drawing a card greater than 7 is high.',
-    'The dealers other card is a 10, so the count goes down to +4 and the dealer has 15.',
-    'The dealer must take another card since the value of their hand is less than 17. They hit, and get a King, bringing their hand value to 25, causing them to bust. The player wins.'
+    'The dealer is dealt a 5, so the count goes up again to +5. Click the right arrow below to see the cards the user is dealt.',
+    'The user is dealt a Jack and a 4, and since it is 1 high card and 1 low card ,the count remains at +5. Since the count is high and the user is at 14, while the dealer has a 5 showing, the wise move is to stay because the chance of drawing a card greater than 7 is high. Click the right arrow below to see the dealer\'s second card.',
+    'The dealers other card is a 10, so the count goes down to +4 and the dealer has 15. Since the dealer is not at 17, they must hit. Click the right arrow to see which card the dealer receives when they hit.',
+    'The dealer receives a King, bringing their hand value to 25, causing them to bust. The player wins.'
 ]
 
 var width = 375;
