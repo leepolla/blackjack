@@ -163,6 +163,7 @@ function update(){
 document.getElementById('cardArea').innerHTML = "";
 playerPositions = [0,0,0,0,0,0];
 currentRound = rounds[scriptIndex];
+document.getElementById('strategy').innerHTML = helperText[scriptIndex];
 
 var hand = svg.selectAll(".card")
     .data(currentRound)
